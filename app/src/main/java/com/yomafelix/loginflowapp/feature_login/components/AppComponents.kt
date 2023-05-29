@@ -95,7 +95,11 @@ fun HeaderTextComponent(text: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTextField(labelText: String, painterResource: Painter) {
+fun CustomTextField(
+    labelText: String,
+    painterResource: Painter,
+    onTextSelected: (String) -> Unit
+) {
     var textValue by remember {
         mutableStateOf("")
     }
@@ -116,6 +120,7 @@ fun CustomTextField(labelText: String, painterResource: Painter) {
         maxLines = 1,
         onValueChange = {
             textValue = it
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(
@@ -128,7 +133,7 @@ fun CustomTextField(labelText: String, painterResource: Painter) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextField(labelText: String, painterResource: Painter) {
+fun PasswordTextField(labelText: String, painterResource: Painter, onTextSelected: (String) -> Unit) {
     var password by remember {
         mutableStateOf("")
     }
@@ -149,11 +154,15 @@ fun PasswordTextField(labelText: String, painterResource: Painter) {
             cursorColor = Primary,
             containerColor = BgColor
         ),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done,keyboardType = KeyboardType.Password),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Password
+        ),
         singleLine = true,
         maxLines = 1,
         onValueChange = {
             password = it
+            onTextSelected(it)
         },
         leadingIcon = {
             Icon(
@@ -234,15 +243,16 @@ fun ClickableTextComponent(text: String, onTextSelected: (String) -> Unit) {
 }
 
 @Composable
-fun ButtonComponent(text: String) {
+fun ButtonComponent(text: String, onButtonClicked: () -> Unit = {}, isEnabled: Boolean = false) {
     Button(
         contentPadding = PaddingValues(),
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
-        onClick = { /*TODO*/ },
+        onClick = { onButtonClicked.invoke() },
         colors = ButtonDefaults.buttonColors(Color.Transparent),
-        shape = RoundedCornerShape(50.dp)
+        shape = RoundedCornerShape(50.dp),
+        enabled = isEnabled
     ) {
         Box(
             modifier = Modifier
@@ -299,10 +309,13 @@ fun DividerTextComponent() {
 }
 
 @Composable
-fun ClickableLoginRegisterTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
+fun ClickableLoginRegisterTextComponent(
+    tryingToLogin: Boolean = true,
+    onTextSelected: (String) -> Unit
+) {
 
     val initialText = if (tryingToLogin) "Already have an account? " else "Don't have an account? "
-    val clickedText = if (tryingToLogin)"Login" else "Register"
+    val clickedText = if (tryingToLogin) "Login" else "Register"
 
 
     val annotatedString = buildAnnotatedString {

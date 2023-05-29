@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.yomafelix.loginflowapp.R
 import com.yomafelix.loginflowapp.feature_login.components.ButtonComponent
 import com.yomafelix.loginflowapp.feature_login.components.CheckBoxComponent
@@ -23,12 +24,14 @@ import com.yomafelix.loginflowapp.feature_login.components.DividerTextComponent
 import com.yomafelix.loginflowapp.feature_login.components.HeaderTextComponent
 import com.yomafelix.loginflowapp.feature_login.components.PasswordTextField
 import com.yomafelix.loginflowapp.feature_login.components.PlainTextComponent
+import com.yomafelix.loginflowapp.feature_login.data.LoginScreenVM
+import com.yomafelix.loginflowapp.feature_login.data.UiEvent
 import com.yomafelix.loginflowapp.feature_login.navigation.AffirmationAppRouter
 import com.yomafelix.loginflowapp.feature_login.navigation.Screen
 
 @Composable
 fun SignUpScreen(
-
+loginScreenVM: LoginScreenVM = viewModel()
 ) {
     Surface(
         modifier = Modifier
@@ -44,20 +47,32 @@ fun SignUpScreen(
 
             CustomTextField(
                 labelText = stringResource(id = R.string.first_name),
-                painterResource(id = R.drawable.ic_profile)
+                painterResource(id = R.drawable.ic_profile),
+                onTextSelected = {
+                    loginScreenVM.onEvent(UiEvent.FirstNameChange(it))
+                }
             )
             CustomTextField(
                 labelText = stringResource(id = R.string.last_name),
-                painterResource = painterResource(id = R.drawable.ic_profile)
+                painterResource = painterResource(id = R.drawable.ic_profile),
+                onTextSelected = {
+                    loginScreenVM.onEvent(UiEvent.LastNameChange(it))
+                }
             )
             CustomTextField(
                 labelText = stringResource(id = R.string.email),
-                painterResource = painterResource(id = R.drawable.ic_email)
+                painterResource = painterResource(id = R.drawable.ic_email),
+                onTextSelected = {
+                    loginScreenVM.onEvent(UiEvent.EmailChange(it))
+                }
             )
 
             PasswordTextField(
                 labelText = stringResource(id = R.string.password),
-                painterResource = painterResource(id = R.drawable.password)
+                painterResource = painterResource(id = R.drawable.password),
+                onTextSelected = {
+                    loginScreenVM.onEvent(UiEvent.PasswordChange(it))
+                }
             )
 
             CheckBoxComponent(

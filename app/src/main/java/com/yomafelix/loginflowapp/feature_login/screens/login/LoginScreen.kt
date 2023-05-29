@@ -44,12 +44,14 @@ fun LoginScreen() {
 
             CustomTextField(
                 labelText = stringResource(id = R.string.email),
-                painterResource = painterResource(id = R.drawable.ic_email)
+                painterResource = painterResource(id = R.drawable.ic_email),
+                onTextSelected = {}
             )
 
             PasswordTextField(
                 labelText = stringResource(id = R.string.password),
-                painterResource = painterResource(id = R.drawable.password)
+                painterResource = painterResource(id = R.drawable.password),
+                onTextSelected = {}
             )
             Spacer(modifier = Modifier.height(20.dp))
 
